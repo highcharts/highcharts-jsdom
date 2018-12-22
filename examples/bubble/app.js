@@ -1,10 +1,10 @@
 /* eslint-env node, es6 */
 
-const hc = require('./highcharts-jsdom');
+const hc = require(__dirname + '/../../highcharts-jsdom');
 
 hc({
-    infile: 'examples/bubble.json',
-    outfile: 'chart.svg',
+    infile: __dirname + '/options.json',
+    outfile: __dirname + '/chart.svg',
 
     // Constructor, defaults to 'chart'
     constr: 'chart',

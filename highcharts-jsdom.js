@@ -142,7 +142,7 @@ module.exports = (cfg) => {
 
         if (cfg.infile) {
 
-            fs.readFile(cfg.infile, (err, file) => {
+            fs.readFile(cfg.infile, 'utf8', (err, file) => {
                 if (err) {
                     reject(err);
                 }

@@ -1,0 +1,18 @@
+{
+    "chart": {
+        "width": 800,
+        "height": 400
+    },
+    "title": {
+        "text": "Highcharts Stock and jsdom"
+    },
+    "subtitle": {
+        "text": "This chart is generated <em>without</em> a browser"
+    },
+    "series": [{
+        "type": "line",
+        "pointStart": 1546300800000,
+        "pointIntervalUnit": "day", 
+        "data": [3, 4, 2, 5, 3, 6, 4, 2, 3, 1, 2, 5, 4, 3, 2, 3, 4, 6, 5, 4]
+    }]
+}

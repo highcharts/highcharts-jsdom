@@ -112,16 +112,18 @@ doc.createElementNS = (ns, tagName) => {
     return elem;
 };
 
-module.exports = (cfg) => {
-
+module.exports = ({
+    constr = 'chart',
+    extensions = [],
+    infile,
+    outfile = 'chart.svg'
+}) => {
     return new Promise((resolve, reject) => {
         // Require Highcharts with the window shim
         const Highcharts = require('highcharts')(win);
-        if (cfg.extensions) {
-            cfg.extensions.forEach(ext => {
-                require(`highcharts/${ext}`)(Highcharts);
-            });
-        }
+        extensions.forEach(ext => {
+            require(`highcharts/${ext}`)(Highcharts);
+        });
 
         if (!Highcharts.Chart.prototype.sanitizeSVG) {
             require('highcharts/modules/exporting')(Highcharts);
@@ -140,9 +142,9 @@ module.exports = (cfg) => {
             }
         });
 
-        if (cfg.infile) {
+        if (infile) {
 
-            fs.readFile(cfg.infile, 'utf8', (err, file) => {
+            fs.readFile(infile, 'utf8', (err, file) => {
                 if (err) {
                     reject(err);
                 }
@@ -153,7 +155,7 @@ module.exports = (cfg) => {
                 // Generate the chart into the container
                 let start = Date.now();
                 try {
-                    chart = Highcharts[cfg.constr || 'chart'](
+                    chart = Highcharts[constr](
                         'container',
                         options
                     );
@@ -165,7 +167,6 @@ module.exports = (cfg) => {
                 let svg = chart.sanitizeSVG(
                     chart.container.innerHTML
                 );
-                let outfile = cfg.outfile || 'chart.svg';
                 fs.writeFile(outfile, svg, function (err) {
 
                     if (err) {

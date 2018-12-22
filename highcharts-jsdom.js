@@ -25,8 +25,8 @@ const doc = win.document;
 // Do some modifications to the jsdom document in order to get the SVG bounding
 // boxes right.
 let oldCreateElementNS = doc.createElementNS;
-doc.createElementNS = function (ns, tagName) {
-    let elem = oldCreateElementNS.call(this, ns, tagName);
+doc.createElementNS = (ns, tagName) => {
+    let elem = oldCreateElementNS.call(doc, ns, tagName);
     if (ns !== 'http://www.w3.org/2000/svg') {
         return elem;
     }
@@ -35,7 +35,7 @@ doc.createElementNS = function (ns, tagName) {
      * Pass Highcharts' test for SVG capabilities
      * @returns {undefined}
      */
-    elem.createSVGRect = function () {};
+    elem.createSVGRect = () => {};
     /**
      * jsdom doesn't compute layout (see
      * https://github.com/tmpvar/jsdom/issues/135). This getBBox implementation
@@ -48,14 +48,24 @@ doc.createElementNS = function (ns, tagName) {
      * several fonts and sizes, but it may not be necessary for the purpose.
      * @returns {Object} The bounding box
      */
-    elem.getBBox = function () {
+    elem.getBBox = () => {
         let lineWidth = 0,
             width = 0,
             height = 0;
 
-        [].forEach.call(
-            elem.children.length ? elem.children : [elem],
-            function (child) {
+        let children = [].slice.call(
+            elem.children.length ? elem.children : [elem]
+        );
+
+        children
+            .filter(child => {
+                if (child.getAttribute('class') === 'highcharts-text-outline') {
+                    child.parentNode.removeChild(child);
+                    return false;
+                }
+                return true;
+            })
+            .forEach(child => {
                 let fontSize = child.style.fontSize || elem.style.fontSize,
                     lineHeight,
                     textLength;
@@ -101,7 +111,7 @@ doc.createElementNS = function (ns, tagName) {
     return elem;
 };
 
-module.exports = function (cfg) {
+module.exports = (cfg) => {
 
     return new Promise((resolve, reject) => {
         // Require Highcharts with the window shim

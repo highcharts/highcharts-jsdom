@@ -116,6 +116,11 @@ module.exports = (cfg) => {
     return new Promise((resolve, reject) => {
         // Require Highcharts with the window shim
         const Highcharts = require('highcharts')(win);
+        if (cfg.extensions) {
+            cfg.extensions.forEach(ext => {
+                require(`highcharts/${ext}`)(Highcharts);
+            });
+        }
 
         
         // Disable all animation
@@ -141,7 +146,11 @@ module.exports = (cfg) => {
                 
                 // Generate the chart into the container
                 let start = Date.now();
-                Highcharts.chart('container', options);
+                try {
+                    Highcharts[cfg.constr || 'chart']('container', options);
+                } catch (e) {
+                    reject(e);
+                }
                 let time = Date.now() - start;
 
                 let svg = win.document.getElementById('container').innerHTML;

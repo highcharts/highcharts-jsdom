@@ -3,8 +3,16 @@
 const hc = require('./highcharts-jsdom');
 
 hc({
-	infile: 'examples/column.json',
-	outfile: 'examples/column.svg'
+	infile: 'examples/bubble.json',
+	outfile: 'chart.svg',
+
+	// Constructor, defaults to 'chart'
+	constr: 'chart',
+
+	// Module files etc
+	extensions: [
+		'highcharts-more'
+	]
 }).then((result) => {
 	console.log(result);
 });

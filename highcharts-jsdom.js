@@ -21,6 +21,7 @@ const dom = new JSDOM(
 const win = dom.window;
 const doc = win.document;
 
+win.Date = Date;
 
 // Do some modifications to the jsdom document in order to get the SVG bounding
 // boxes right.
@@ -122,6 +123,10 @@ module.exports = (cfg) => {
             });
         }
 
+        if (!Highcharts.Chart.prototype.sanitizeSVG) {
+            require('highcharts/modules/exporting')(Highcharts);
+        }
+
         
         // Disable all animation
         Highcharts.setOptions({
@@ -142,18 +147,24 @@ module.exports = (cfg) => {
                     reject(err);
                 }
 
+                let chart;
                 let options = JSON.parse(file);
                 
                 // Generate the chart into the container
                 let start = Date.now();
                 try {
-                    Highcharts[cfg.constr || 'chart']('container', options);
+                    chart = Highcharts[cfg.constr || 'chart'](
+                        'container',
+                        options
+                    );
                 } catch (e) {
                     reject(e);
                 }
                 let time = Date.now() - start;
 
-                let svg = win.document.getElementById('container').innerHTML;
+                let svg = chart.sanitizeSVG(
+                    chart.container.innerHTML
+                );
                 let outfile = cfg.outfile || 'chart.svg';
                 fs.writeFile(outfile, svg, function (err) {
 

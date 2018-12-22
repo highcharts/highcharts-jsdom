@@ -1,0 +1,16 @@
+{
+  "name": "highcharts-jsdom",
+  "version": "1.0.0",
+  "description": "Utility for generating SVG charts without a browser.",
+  "main": "highcharts-jsdom.js",
+  "dependencies": {
+    "highcharts": "^7.0.1",
+    "jsdom": "^13.1.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Torstein Hønsi",
+  "license": "MIT"
+}

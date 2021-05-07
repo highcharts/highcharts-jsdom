@@ -4,7 +4,7 @@
   "description": "Utility for generating SVG charts without a browser.",
   "main": "highcharts-jsdom.js",
   "dependencies": {
-    "highcharts": ">=9.1.0",
+    "highcharts": ">=9.0.0",
     "jsdom": "^13.1.0"
   },
   "devDependencies": {},

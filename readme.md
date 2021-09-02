@@ -10,7 +10,7 @@ and the text bounding boxes are not exact, which affects the whole chart layout.
 const hc = require('./highcharts-jsdom');
 
 hc({
-	infile: 'examples/bubble.json',
+	infile: 'examples/bubble/options.json',
 	outfile: 'chart.svg',
 
 	// Constructor, defaults to 'chart'

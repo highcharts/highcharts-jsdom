@@ -21,6 +21,7 @@ const dom = new JSDOM(
 const win = dom.window;
 const doc = win.document;
 
+global.Node = win.Node;
 win.Date = Date;
 
 // Do some modifications to the jsdom document in order to get the SVG bounding
@@ -161,7 +162,9 @@ module.exports = ({
                     );
                 } catch (e) {
                     reject(e);
+                    return;
                 }
+
                 let time = Date.now() - start;
 
                 let svg = chart.sanitizeSVG(

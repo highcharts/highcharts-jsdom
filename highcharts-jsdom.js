@@ -21,7 +21,7 @@ const dom = new JSDOM(
 const win = dom.window;
 const doc = win.document;
 
-global.Node = win.Node;
+global.Node = win.Node; // Workaround for issue #1
 win.Date = Date;
 
 // Do some modifications to the jsdom document in order to get the SVG bounding
@@ -130,7 +130,7 @@ module.exports = ({
             require('highcharts/modules/exporting')(Highcharts);
         }
 
-        
+
         // Disable all animation
         Highcharts.setOptions({
             plotOptions: {
@@ -152,7 +152,7 @@ module.exports = ({
 
                 let chart;
                 let options = JSON.parse(file);
-                
+
                 // Generate the chart into the container
                 let start = Date.now();
                 try {

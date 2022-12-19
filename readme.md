@@ -1,7 +1,7 @@
 A utility to convert Highcharts configs to SVGs without a browser.
 
 It is generally slower than the [export server](https://www.npmjs.com/package/highcharts-export-server)
-and the text bounding boxes are not exact, which affects the whole chart layout. 
+and the text bounding boxes are not exact, which affects the whole chart layout.
 
 ### Usage
 `npm install`
@@ -26,4 +26,6 @@ hc({
 ```
 
 ### Run example
-`node example`
+```
+node examples/bubble/app
+```
